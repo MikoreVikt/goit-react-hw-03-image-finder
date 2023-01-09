@@ -4,19 +4,17 @@ import { Ul } from './ImageGallery.styled';
 
 export const ImageGallery = ({images}) => {
     return (
-        <>
-            <Ul>
-                {images.map(({ id, webformatURL, largeImageURL, tags, }) =>
-                    <ImageGalleryItem 
-                        key={id} 
-                        id={id} 
-                        src={webformatURL}
-                        alt={tags}
-                        largeImageURL={largeImageURL}
-                    />
-                )}
-            </Ul>
-        </>
+        <Ul>
+            {images.map(({ id, webformatURL, largeImageURL, tags, }) =>
+                <ImageGalleryItem 
+                    key={id} 
+                    id={id} 
+                    src={webformatURL}
+                    alt={tags}
+                    largeImageURL={largeImageURL}
+                />
+            )}
+        </Ul>
     )
 }
 

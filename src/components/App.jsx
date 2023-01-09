@@ -21,10 +21,6 @@ export class App extends Component {
   async componentDidUpdate(_, prevState) {
     const { query, page, loading } = this.state
 
-    if (prevState.query && prevState.query !== query) {
-      this.setState({images: []})
-    }
-
     if (prevState.query !== query || prevState.page !== page) {
       try {
         this.setState({ loading: true })
@@ -57,7 +53,10 @@ export class App extends Component {
     if (query.toLowerCase().trim() === "") {
       return toast.warn(`Enter search query`)
     }
-    this.setState({ query, page: 1})
+    if (this.state.query === query) {
+      return
+    }
+    this.setState({ query, page: 1, images: []})
   }
 
   loadMore = () => {
@@ -65,12 +64,12 @@ export class App extends Component {
   }
   
   render() {
-    const {images, totalHits} = this.state
+    const {images, loading, totalHits} = this.state
     return (
       <>
         <SearchBar onSubmit={this.handleSubmit} />
-        <ImageGallery images={this.state.images} />
-        {images.length > 0 && images.length < totalHits && (<Button onClick={this.loadMore} />)}
+        {totalHits !== 0 && (<ImageGallery images={this.state.images} />)}
+        {images.length > 0 && images.length < totalHits && loading === false && (<Button onClick={this.loadMore} />)}
         <ThreeDots 
           height="150" 
           width="150" 
